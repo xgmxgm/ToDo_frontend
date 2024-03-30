@@ -3,8 +3,9 @@ import styles from "./Checkbox.module.scss"
 
 export const Checkbox = () => {
 	return (
-		<div className={styles.checkbox}>
-			<input type="checkbox" />
-		</div>
+		<>
+			<input type="checkbox" className={styles.real_checkbox} />
+			<span className={styles.custom_checkbox}></span>
+		</>
 	)
 }

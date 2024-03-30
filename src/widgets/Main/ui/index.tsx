@@ -1,12 +1,14 @@
 'use client'
 
 import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react'
+
+import { DeleteButton } from '@/shared/ui/DeleteButton'
 import { setTask } from '@/store/Slice/TaskSlice'
 import { AddTask } from '@/widgets/AddTask'
 import { RootState } from '@/store'
-import { useEffect } from 'react'
 import axios from '@/axios'
-import { DeleteButton } from '@/shared/ui/DeleteButton'
+import { Checkbox } from '@/shared/ui/Checkbox'
 
 export const Main = () => {
 	const Tasks = useSelector((state: RootState) => state.task);
@@ -19,14 +21,10 @@ export const Main = () => {
 		dispatch(setTask(res.data))
 	};
 
-	// useEffect(() => {
-	// 	FetchTasks();
-	// }, []);
-
 	useEffect(() => {
 		FetchTasks();
 
-		const intervalId = setInterval(FetchTasks, 1000);
+		const intervalId = setInterval(FetchTasks, 500);
 
 		return () => clearInterval(intervalId);
 	}, [])
@@ -42,6 +40,7 @@ export const Main = () => {
 			</div>
 			<div className='my-5'>
 				<AddTask />
+				<Checkbox />
 			</div>
 			<div>
 				{
