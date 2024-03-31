@@ -1,29 +1,50 @@
 .real_checkbox {
-	
+	width: 0;
+	height: 0;
+	opacity: 0;
+	position: absolute;
+	z-index: -1;
 }
 
 .custom_checkbox {
 	position: relative;
 	display: inline-block;
-	width: 20px;
-	height: 20px;
-	background: #b87171;
-	border: 2px solid black;
-	border-radius: 4px;
+	margin-right: 20px;
+	width: 35px;
+	height: 35px;
+	// background: #fff;
+	background: rgb(229 231 235);
+	border: 4px solid #FF5B61;
+	border-radius: 8px;
 	vertical-align: sub;
+
+	transition: 0.2s;
 
 	&::before {
 		content: '';
 
 		display: inline-block;
-		width: 13px;
-		height: 13px;
-		background-image: url(../../../../../public/check-mark-svgrepo-com.svg);
+		width: 20px;
+		height: 20px;
+		background-image: url(../../../../../public/check-mark-icon.svg);
 		background-size: contain;
 		background-repeat: no-repeat;
 		position: absolute;
 		left: 50%;
 		top: 50%;
-		transform: translate(-50%, -50%);
+		transform: translate(-50%, -50%) scale(0);
+		transition: 0.2s ease-in;
 	}
+}
+
+.real_checkbox:checked + .custom_checkbox::before {
+	transform: translate(-50%, -50%) scale(0.8);
+}
+
+.real_checkbox:checked + .custom_checkbox {
+	background: #FF5A60;
+}
+
+.real_checkbox:hover + .custom_checkbox {
+	box-shadow: 0 0 10px 0 #FF5B61;
 }

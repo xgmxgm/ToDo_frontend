@@ -15,16 +15,17 @@ export const AddTask = () => {
 	}
 
 	return (
-		<div className='flex justify-center items-center gap-[5px]'>
+		<div className='flex justify-center items-center gap-[10px]'>
 			<input
-				className='border-2 border-gray-500 border-solid rounded-lg py-1 px-2' type="text"
+				className='border-4 border-gray-500 border-solid rounded-xl py-2 px-4 text-3xl'
+				type="text"
 				placeholder='Enter description...'
 				onChange={(e) => setInputValue(e.target.value)}
 				value={inputValue}
 				onKeyDown={(e) => {e.key == "Enter" && addTask()}}
 			/>
 			<button
-				className='p-1 border-2 border-gray-500 rounded-lg'
+				className='p-2 border-4 border-gray-500 rounded-xl text-3xl'
 				onClick={addTask}
 			>Enter</button>
 		</div>

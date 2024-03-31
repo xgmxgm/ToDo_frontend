@@ -5,10 +5,10 @@ import { useEffect } from 'react'
 
 import { DeleteButton } from '@/shared/ui/DeleteButton'
 import { setTask } from '@/store/Slice/TaskSlice'
+import { Checkbox } from '@/shared/ui/Checkbox'
 import { AddTask } from '@/widgets/AddTask'
 import { RootState } from '@/store'
 import axios from '@/axios'
-import { Checkbox } from '@/shared/ui/Checkbox'
 
 export const Main = () => {
 	const Tasks = useSelector((state: RootState) => state.task);
@@ -40,16 +40,15 @@ export const Main = () => {
 			</div>
 			<div className='my-5'>
 				<AddTask />
-				<Checkbox />
 			</div>
 			<div>
 				{
 					Tasks.map((task, index) => 
-					<div className='flex items-center justify-between m-2 py-1 px-2 border-2 border-blue-500 border-solid rounded-lg' key={index}>
-						<input className='mr-3 scale-125' type="checkbox" />
-						<p className='text-[13pt] text-neutral-700'>{task.description}</p>
-						{/* <button onClick={() => deleteTask(task.id)}>delete</button> */}
-						<DeleteButton onClick={() => deleteTask(task.id)}>delete</DeleteButton>
+					// <div className='flex items-center justify-between m-4 py-2 px-4 border-4 border-gray-600 border-solid rounded-lg max-w-lg' key={index}>
+					<div className='flex items-center justify-between my-8 py-2 px-4 rounded-lg max-w-lg' key={index}>
+						<Checkbox />
+						<p className='text-[19pt] text-neutral-700'>{task.description}</p>
+						<DeleteButton onClick={() => deleteTask(task.id)} />
 					</div>)
 				}
 			</div>
