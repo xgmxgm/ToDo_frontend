@@ -35,8 +35,8 @@ export const Main = () => {
 
 	return (
 		<>
-			<div className='bg-slate-600 w-full flex items-center justify-center'>
-				<h2 className='text-xl'>Main page</h2>
+			<div className='w-full flex items-center py-3 border-b-[1px] border-black'>
+				<h2 className='text-xl text-black font-semibold ml-8'>To Do App <span className='text-red-500'>by XGM</span></h2>
 			</div>
 			<div className='my-5'>
 				<AddTask />
@@ -44,7 +44,6 @@ export const Main = () => {
 			<div>
 				{
 					Tasks.map((task, index) => 
-					// <div className='flex items-center justify-between m-4 py-2 px-4 border-4 border-gray-600 border-solid rounded-lg max-w-lg' key={index}>
 					<div className='flex items-center justify-between my-8 py-2 px-4 rounded-lg max-w-lg' key={index}>
 						<Checkbox />
 						<p className='text-[19pt] text-neutral-700'>{task.description}</p>
