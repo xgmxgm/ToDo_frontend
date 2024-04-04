@@ -1,7 +1,7 @@
 'use client'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import { DeleteButton } from '@/shared/ui/DeleteButton'
 import { setTask } from '@/store/Slice/TaskSlice'
@@ -12,6 +12,7 @@ import axios from '@/axios'
 
 export const Main = () => {
 	const Tasks = useSelector((state: RootState) => state.task);
+	const [active , setActive] = useState<boolean>(false);
 
 	const dispatch = useDispatch();
 
@@ -39,7 +40,7 @@ export const Main = () => {
 				<h2 className='text-xl text-black font-semibold ml-8'>To Do App <span className='text-red-500'>by XGM</span></h2>
 			</div>
 			<div className='my-5'>
-				<AddTask />
+				<AddTask active={active} setActive={setActive} />
 			</div>
 			<div>
 				{
