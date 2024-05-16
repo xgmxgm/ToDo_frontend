@@ -36,9 +36,6 @@ export const Main = () => {
 
 	return (
 		<>
-			<div className='w-full flex items-center py-3 border-b-[1px] border-black'>
-				<h2 className='text-xl text-black font-semibold ml-8'>To Do App <span className='text-red-500'>by XGM</span></h2>
-			</div>
 			<div className='my-5'>
 				<AddTask active={active} setActive={setActive} />
 			</div>
