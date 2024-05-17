@@ -9,6 +9,7 @@ import { Checkbox } from '@/shared/ui/Checkbox'
 import { AddTask } from '@/widgets/AddTask'
 import { RootState } from '@/store'
 import axios from '@/axios'
+import Link from 'next/link'
 
 export const Main = () => {
 	const Tasks = useSelector((state: RootState) => state.task);
@@ -49,6 +50,8 @@ export const Main = () => {
 					</div>)
 				}
 			</div>
+			<Link href="signup">Sign Up</Link>
+			<Link href="signin">Sign In</Link>
 		</>
 	);
 }

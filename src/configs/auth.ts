@@ -1,11 +1,9 @@
 import axios from '@/axios'
 import { AuthOptions } from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
+import jwt from 'jsonwebtoken';
 
 export const authOptions: AuthOptions = {
-	session: {
-		strategy: "jwt",
-	},
 	providers: [
 		Credentials({
 			name: "Credentials",
@@ -25,15 +23,28 @@ export const authOptions: AuthOptions = {
 
 				const res = await axios.post("/user/signin", requestData);
 				console.log("_Auth configs_: ", res.data)
-				const user = res.data.userData;
+				const user = res.data.user;
 
 				if (user) {
-					return user
+					console.log(user)
+
+					// return {
+					// 	...user,
+					// 	token: res.data.token,
+					// };
+
+					return {
+						name: user.fullName,
+						email: user.email,
+						...user
+					}
 				}
+
+				return null;
 			},
 		})
 	],
-	pages: {
-		signIn: "/signin"
-	}
+	// pages: {
+	// 	signIn: "/signin"
+	// },
 }
