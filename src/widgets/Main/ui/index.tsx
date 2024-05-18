@@ -10,6 +10,7 @@ import { AddTask } from '@/widgets/AddTask'
 import { RootState } from '@/store'
 import axios from '@/axios'
 import Link from 'next/link'
+import { signOut } from 'next-auth/react'
 
 export const Main = () => {
 	const Tasks = useSelector((state: RootState) => state.task);
@@ -23,13 +24,13 @@ export const Main = () => {
 		dispatch(setTask(res.data))
 	};
 
-	useEffect(() => {
-		FetchTasks();
+	// useEffect(() => {
+	// 	FetchTasks();
 
-		const intervalId = setInterval(FetchTasks, 500);
+	// 	const intervalId = setInterval(FetchTasks, 500);
 
-		return () => clearInterval(intervalId);
-	}, [])
+	// 	return () => clearInterval(intervalId);
+	// }, [])
 
 	const deleteTask = async (id: number) => {
 		await axios.post('/delete', {ids: [id]});
@@ -52,6 +53,7 @@ export const Main = () => {
 			</div>
 			<Link href="signup">Sign Up</Link>
 			<Link href="signin">Sign In</Link>
+			<button onClick={() => signOut()}>sign out</button>
 		</>
 	);
 }

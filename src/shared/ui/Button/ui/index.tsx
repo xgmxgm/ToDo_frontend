@@ -11,6 +11,7 @@ export const Button = ({ children, onClick }: IProps) => {
 			<button
 				className='text-center border-[2px] border-[#5A54D6] w-full rounded-full py-2 my-4 transition-all duration-200 hover:bg-[#5A54D6]'
 				onClick={onClick}
+				type='submit'
 			>
 				{children}
 			</button>

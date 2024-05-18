@@ -2,7 +2,7 @@
 
 import { Button } from '@/shared/ui/Button'
 import { Input } from '@/shared/ui/Input'
-import { signIn } from 'next-auth/react'
+import { getSession, signIn } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { FormEventHandler, useEffect, useState } from 'react'
@@ -10,8 +10,10 @@ import { FormEventHandler, useEffect, useState } from 'react'
 export const SignIn = () => {
 	const [inputEmail, setInputEmail] = useState<string>('');
 	const [inputPass, setInputPass] = useState<string>('');
+	const [res, setRes] = useState<any>();
 
 	const router = useRouter();
+	const session = getSession();
 
 	const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
 		event.preventDefault();
@@ -24,13 +26,17 @@ export const SignIn = () => {
 		}
 
 		const res = await signIn('credentials', reqData)
+		setRes(res)
 
-		console.log("res: ", res)
-
-		if (res && !res.error) {
-            router.push('/profile')
-        }
+		// if (res && !res.error) {
+        //     router.push('/profile')
+        // }
 	}
+
+	useEffect(() => {
+		console.log("Session Sign In Component: ", session)
+		console.log("Res Sign In Component: ", res)
+	})
 
 	return (
 		<>
