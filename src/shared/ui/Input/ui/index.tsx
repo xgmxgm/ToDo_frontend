@@ -19,6 +19,7 @@ export const Input = ({ state, setState, placeholder, type, name }: IProps) => {
 					onChange={(e) => setState(e.target.value)}
 					placeholder={placeholder}
 					name={name}
+					required
 				/>
 			</div>
 		</>

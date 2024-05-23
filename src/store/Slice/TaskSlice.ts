@@ -1,3 +1,4 @@
+import { ITask } from '@/types/next-auth'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 const initialState: ITask[] = [];
@@ -8,9 +9,6 @@ const TaskSlice = createSlice({
 	reducers: {
 		setTask(state, action: PayloadAction<ITask[]>) {
 			state = action.payload;
-
-			console.log(state)
-
 			return state
 		}
 	}
