@@ -13,7 +13,7 @@ export const Input = ({ state, setState, placeholder, type, name }: IProps) => {
 		<>
 			<div>
 				<input
-					className='rounded-md font-medium outline-none px-4 py-2 bg-transparent border-[1px] border-[#707088] my-2 transition-all duration-200 focus:bg-slate-100 focus:text-[#707088]'
+					className='rounded-md font-medium outline-none px-4 py-2 bg-transparent border-[1px] border-[#707088] my-2 transition-all duration-200 focus:bg-slate-100 focus:text-[#707088] w-full'
 					type={type}
 					value={state}
 					onChange={(e) => setState(e.target.value)}

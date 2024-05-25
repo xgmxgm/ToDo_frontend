@@ -1,6 +1,8 @@
 'use client'
 
+import { Loader } from '@/shared/ui/Loader'
 import { useSession } from 'next-auth/react'
+import Image from 'next/image'
 
 export const Profile = () => {
 	const { data: session, status } = useSession()
@@ -8,8 +10,8 @@ export const Profile = () => {
 	if (status == "loading") {
 		return(
 			<>
-				<div>
-					<h2>LOADING...</h2>
+				<div className='flex items-center justify-center h-[85vh]'>
+					<Loader />
 				</div>
 			</>
 		)
@@ -18,7 +20,7 @@ export const Profile = () => {
 	if (!session) {
 		return (
 			<>
-				<div>
+				<div className='flex items-center justify-center'>
 					<h2>Not authenticated</h2>
 				</div>
 			</>
@@ -30,17 +32,21 @@ export const Profile = () => {
 
 		return (
 			<>
-				<div>
-					<div>
-						<h2>Profile page</h2>
-						<h3>Id: {session?.user?.id}</h3>
-						<h3>Name: {session?.user?.fullName}</h3>
-						<h3>Email: {session?.user?.email}</h3>
-						<p>Tasks:</p>
+				<div className='flex justify-center mt-7'>
+					<div className='text-center bg-[#21222B] p-5 rounded-lg border-gray-600 border-2'>
+						<div className='flex justify-center items-center mb-4'>
+							<div className='bg-[#181920] rounded-full p-4'>
+								<Image src={session.user.avatarURL == "defaultUser.png" ? "defaultUser.svg" : session.user.avatarURL} alt='default user' width={100} height={100} className='m-2' />
+							</div>
+						</div>
+						<div className='leading-7'>
+							<h2 className='text-xl mb-1'><span className='text-base text-gray-500'>{session.user.id}. </span>{session?.user?.fullName}</h2>
+							<h3>{session?.user?.email}</h3>
+							<h3>Tasks: {session.user.Tasks.length}</h3>
+						</div>
 						{
 							session.user.Tasks.map((task, index) => <div key={index} className='bg-slate-800 w-52 flex flex-col justify-center items-center rounded-lg my-3 py-2'>
 								<div className='flex justify-between w-9/12'>
-									<p>id: {task.id}</p>
 									<input type="checkbox" checked={task.isComplete} readOnly />
 								</div>
 								<h2>description: {task.description}</h2>

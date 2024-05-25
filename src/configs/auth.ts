@@ -16,9 +16,9 @@ export const authOptions: AuthOptions = {
 			},
 			async authorize(credentials) {
 
-					if (!credentials || !credentials?.email || !credentials.password) {
-						return null
-					}
+				if (!credentials || !credentials?.email || !credentials.password) {
+					return null
+				}
 
 				try {
 					const req = {
@@ -26,11 +26,15 @@ export const authOptions: AuthOptions = {
 						password: credentials.password,
 					};
 	
-					const res = await axios.post("/user/signin", req);
+					const res = await axios.post("/user/signin", req)
+
+					if (res.data.message) {
+						return res.data.message
+					}
 	
 					const token = res.data.token;
 	
-					const decodeToken = jwt.verify(token, process.env.SECRET_KEY as string) as any;
+					const decodeToken = jwt.verify(token, process.env.NEXTAUTH_SECRET as string) as any;
 	
 					if (decodeToken) {
 						const user = {
@@ -40,7 +44,7 @@ export const authOptions: AuthOptions = {
 	
 						return user
 					} else {
-						return null
+						return { message: res.data.message }
 					}
 				} catch (err) {
 					console.error(err)
@@ -60,5 +64,9 @@ export const authOptions: AuthOptions = {
 	},
 	pages: {
 		signIn: "/signin"
+	},
+	secret: process.env.NEXTAUTH_SECRET,
+	session: {
+		strategy: "jwt"
 	}
 }

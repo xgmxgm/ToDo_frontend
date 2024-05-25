@@ -5,16 +5,25 @@ import { Input } from '@/shared/ui/Input'
 import Link from 'next/link'
 import { FormEventHandler, useState } from 'react'
 import axios from '@/axios'
+import { ShowButton } from '@/shared/ui/ShowButton'
+import { signIn } from 'next-auth/react'
 
 export const SignUp = () => {
 	const [inputFullName, setInputFullName] = useState<string>('');
 	const [inputEmail, setInputEmail] = useState<string>('');
 	const [inputPass, setInputPass] = useState<string>('');
+	const [inputPassShow, setInputPassShow] = useState<boolean>(false);
+	const [inputPassRep, setInputPassRep] = useState<string>('');
+	const [inputPassRepShow, setInputPassRepShow] = useState<boolean>(false);
 
 	const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
 		event.preventDefault();
 
 		const formData = new FormData(event.currentTarget);
+
+		if (formData.get("password") !== formData.get("passwordrep")) {
+			return null
+		}
 
 		const req = {
 			fullName: formData.get("fullname"),
@@ -22,8 +31,15 @@ export const SignUp = () => {
 			password: formData.get("password"),
 		}
 
-		const res = await axios.post("/user/signup", req)
-		console.log("server datas: ", res)
+		await axios.post("/user/signup", req)
+
+		const reqData = {
+			email: formData.get("email"),
+			password: formData.get("password"),
+			callbackUrl: "/profile"
+		}
+
+		await signIn('credentials', reqData)
 	}
 
 	return (
@@ -45,7 +61,17 @@ export const SignUp = () => {
 						</div>
 						<div className='mt-5'>
 							<p className='text-lg'>Password</p>
-							<Input name='password' type='password' state={inputPass} setState={setInputPass} placeholder='Enter password' />
+							<div className='flex items-center'>
+								<Input name='password' type={inputPassShow ? 'text' : 'password'} state={inputPass} setState={setInputPass} placeholder='Enter password' />
+								<ShowButton state={inputPassShow} setState={setInputPassShow} />
+							</div>
+						</div>
+						<div className='mt-5'>
+							<p className='text-lg'>Repeat password</p>
+							<div className='flex items-center'>
+								<Input name='passwordrep' type={inputPassRepShow ? 'text' : 'password'} state={inputPassRep} setState={setInputPassRep} placeholder='Repeat password' />
+								<ShowButton state={inputPassRepShow} setState={setInputPassRepShow} />
+							</div>
 						</div>
 						<div>
 							<Button>

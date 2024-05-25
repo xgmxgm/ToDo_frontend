@@ -2,6 +2,7 @@
 
 import { Button } from '@/shared/ui/Button'
 import { Input } from '@/shared/ui/Input'
+import { ShowButton } from '@/shared/ui/ShowButton'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 import { FormEventHandler, useState } from 'react'
@@ -9,6 +10,7 @@ import { FormEventHandler, useState } from 'react'
 export const SignIn = () => {
 	const [inputEmail, setInputEmail] = useState<string>('');
 	const [inputPass, setInputPass] = useState<string>('');
+	const [inputPassShow, setInputPassShow] = useState<boolean>(false);
 
 	const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
 		event.preventDefault();
@@ -21,7 +23,9 @@ export const SignIn = () => {
 			callbackUrl: "/profile"
 		}
 
-		await signIn('credentials', reqData)
+		const res = await signIn('credentials', reqData)
+
+		console.log(res)
 	}
 
 	return (
@@ -39,7 +43,10 @@ export const SignIn = () => {
 						</div>
 						<div className='mt-5'>
 							<p className='text-lg'>Password</p>
-							<Input type='password' name='password' state={inputPass} setState={setInputPass} placeholder='Enter password' />
+							<div className='flex items-center'>
+								<Input type={inputPassShow ? 'text' : 'password'} name='password' state={inputPass} setState={setInputPass} placeholder='Enter password' />
+								<ShowButton state={inputPassShow} setState={setInputPassShow} />
+							</div>
 						</div>
 						<div>
 							<Button>
