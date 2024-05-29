@@ -1,5 +1,5 @@
 import Credentials from 'next-auth/providers/credentials';
-import { AuthOptions } from 'next-auth';
+import type { AuthOptions } from 'next-auth';
 import jwt from 'jsonwebtoken';
 import axios from '@/axios';
 import dotenv from 'dotenv';
@@ -25,30 +25,25 @@ export const authOptions: AuthOptions = {
 						email: credentials.email,
 						password: credentials.password,
 					};
-	
+
 					const res = await axios.post("/user/signin", req)
 
-					if (res.data.message) {
-						return res.data.message
-					}
-	
+					if (res.data.message) return res.data.message;
+
 					const token = res.data.token;
-	
+
 					const decodeToken = jwt.verify(token, process.env.NEXTAUTH_SECRET as string) as any;
-	
+
 					if (decodeToken) {
 						const user = {
 							...decodeToken,
 							token: token,
 						}
-	
+
 						return user
-					} else {
-						return { message: res.data.message }
 					}
-				} catch (err) {
-					console.error(err)
-					return null
+				} catch (err: any) {
+					throw new Error(err.response.data.message);
 				}
 			},
 		})
@@ -59,7 +54,7 @@ export const authOptions: AuthOptions = {
 		},
 		async session({ session, token }) {
 			session.user = token as any;
-			return session
+			return session;
 		},
 	},
 	pages: {

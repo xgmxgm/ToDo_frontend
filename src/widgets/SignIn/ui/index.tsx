@@ -2,15 +2,21 @@
 
 import { Button } from '@/shared/ui/Button'
 import { Input } from '@/shared/ui/Input'
+import { Message } from '@/shared/ui/Message'
 import { ShowButton } from '@/shared/ui/ShowButton'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
-import { FormEventHandler, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { FormEventHandler, useEffect, useState } from 'react'
 
 export const SignIn = () => {
 	const [inputEmail, setInputEmail] = useState<string>('');
 	const [inputPass, setInputPass] = useState<string>('');
 	const [inputPassShow, setInputPassShow] = useState<boolean>(false);
+	const [message, setMessage] = useState<string>("");
+	const [isVisible, setIsVisible] = useState(false);
+
+	const router = useRouter();
 
 	const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
 		event.preventDefault();
@@ -20,18 +26,37 @@ export const SignIn = () => {
 		const reqData = {
 			email: formData.get("email"),
 			password: formData.get("password"),
-			callbackUrl: "/profile"
+			redirect: false
 		}
 
-		const res = await signIn('credentials', reqData)
-
-		console.log(res)
+		await signIn('credentials', reqData)
+		.then(({ok, error}: any) => {
+			if (ok) {
+				router.push("/profile")
+			} else {
+				setIsVisible(true)
+				setMessage(error)
+			}
+		})
 	}
+
+	useEffect(() => {
+		if (isVisible) {
+			const timer = setTimeout(() => {
+				setIsVisible(false)
+			}, 3000)
+
+			return () => clearTimeout(timer)
+		}
+	})
 
 	return (
 		<>
 			<div className='mt-6'>
 				<div className='flex flex-col justify-center items-center'>
+					<Message isVisible={isVisible}>
+						<p className='text-white'>{message}</p>
+					</Message>
 					<div className='text-center'>
 						<h2 className='text-2xl font-semibold'>Welcome to To Do App</h2>
 						<h3 className='text-[#707088] text-lg font-medium'>Sign in</h3>

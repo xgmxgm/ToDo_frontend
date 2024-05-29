@@ -45,7 +45,7 @@ export const ProfileHeader = () => {
 							<Link className='mx-2 transition-all hover:text-red-500' href="" onClick={() => signOut()}>Sign Out</Link>
 						</div>
 						<div className='bg-[#181920] rounded-full ml-3'>
-							<Image src={session.user.avatarURL == "defaultUser.png" ? "defaultUser.svg" : session.user.avatarURL} alt='default user' width={30} height={30} className='m-2' />
+							<Image src={session.user.avatarURL == "defaultUser.png" ? "defaultUser.svg" : "/" + session.user.avatarURL} alt='default user' width={30} height={30} className='m-2' />
 						</div>
 					</div>
 				</div>
