@@ -2,46 +2,59 @@
 
 import { FormEventHandler, useEffect, useState } from 'react'
 import { ShowButton } from '@/shared/ui/ShowButton'
+import { InputImg } from '@/shared/ui/InputImg'
 import { Message } from '@/shared/ui/Message'
 import { Button } from '@/shared/ui/Button'
 import { Input } from '@/shared/ui/Input'
-import { signIn, signOut } from 'next-auth/react'
+import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 import axios from '@/axios'
-import { InputImg } from '@/shared/ui/InputImg'
 
 export const SignUp = () => {
+	const [inputPassRepShow, setInputPassRepShow] = useState<boolean>(false);
+	const [inputPassShow, setInputPassShow] = useState<boolean>(false);
 	const [inputFullName, setInputFullName] = useState<string>('');
+	const [inputPassRep, setInputPassRep] = useState<string>('');
 	const [inputEmail, setInputEmail] = useState<string>('');
 	const [inputPass, setInputPass] = useState<string>('');
-	const [inputPassShow, setInputPassShow] = useState<boolean>(false);
-	const [inputPassRep, setInputPassRep] = useState<string>('');
-	const [inputPassRepShow, setInputPassRepShow] = useState<boolean>(false);
-	const [same, setSame] = useState<boolean>(false);
-	const [avatar, setAvatar] = useState()
 	const [message, setMessage] = useState<string>('');
 	const [isVisible, setIsVisible] = useState(false);
+	const [same, setSame] = useState<boolean>(false);
+	const [avatar, setAvatar] = useState()
 
 	const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
 		event.preventDefault();
 
 		const formData = new FormData(event.currentTarget);
-		if (avatar) formData.append("avatar", avatar)
+		if (avatar) formData.append("avatarURL", avatar)
 
 		if (formData.get("password") !== formData.get("passwordrep")) {
 			setSame(true)
 			return null
 		}
 
+		const reqAvatar = {
+			avatarURL: formData.get("avatar")
+		};
 
-		// YOU WORKING ON THE UPLOAD AVATAR FOR USER
+		console.log(reqAvatar);
 
+		// const handleFetch = await fetch("http://localhost:4444/user/upload", {
+		// 	method: "POST",
+		// 	body: formData
+		// })
+
+		const res = await axios.post("/user/upload", reqAvatar)
+
+		// const res = await handleFetch.json()
+
+		console.log("our avatar data: ", res.data);
 		
 		const req = {
 			fullName: formData.get("fullname"),
 			email: formData.get("email"),
 			password: formData.get("password"),
-			avatarURL: formData.get("avatar"),
+			// avatarURL: res.data.path,
 		}
 
 		console.log("Req data: ", req);
@@ -51,7 +64,8 @@ export const SignUp = () => {
 			const reqData = {
 				email: formData.get("email"),
 				password: formData.get("password"),
-				callbackUrl: "/profile"
+				callbackUrl: "/profile",
+				redirect: false
 			}
 	
 			await signIn('credentials', reqData)
@@ -116,7 +130,7 @@ export const SignUp = () => {
 						</div>
 						<div className='mt-5'>
 							<p className='text-lg'>Select avatar</p>
-							<div>
+							<div className='flex items-center'>
 								<InputImg id='input__file' name='avatar' setState={setAvatar} />
 							</div>
 						</div>

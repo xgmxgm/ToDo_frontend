@@ -6,7 +6,6 @@ interface IProps {
 
 export const InputImg = ({ id, name, setState }: IProps) => {
 
-	// const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
 	const handleImageChange = (e: any) => {
 		console.log(e.target.files[0]);
         setState(e.target.files[0]);

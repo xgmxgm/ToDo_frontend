@@ -13,7 +13,7 @@ export const ProfileHeader = () => {
 		return (
 			<>
 				<div className='mr-4'>
-					<div>
+					<div className='w-9'>
 						<p>Loading...</p>
 					</div>
 				</div>
