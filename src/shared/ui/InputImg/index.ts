@@ -1,1 +1,0 @@
-export { InputImg } from "./ui"

@@ -2,62 +2,42 @@
 
 import { FormEventHandler, useEffect, useState } from 'react'
 import { ShowButton } from '@/shared/ui/ShowButton'
-import { InputImg } from '@/shared/ui/InputImg'
 import { Message } from '@/shared/ui/Message'
 import { Button } from '@/shared/ui/Button'
 import { Input } from '@/shared/ui/Input'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 import axios from '@/axios'
+import { SelectColor } from '@/shared/ui/SelectColor'
 
 export const SignUp = () => {
 	const [inputPassRepShow, setInputPassRepShow] = useState<boolean>(false);
 	const [inputPassShow, setInputPassShow] = useState<boolean>(false);
 	const [inputFullName, setInputFullName] = useState<string>('');
 	const [inputPassRep, setInputPassRep] = useState<string>('');
+	const [avatarColor, setAvatarColor] = useState<string>('');
 	const [inputEmail, setInputEmail] = useState<string>('');
 	const [inputPass, setInputPass] = useState<string>('');
 	const [message, setMessage] = useState<string>('');
 	const [isVisible, setIsVisible] = useState(false);
 	const [same, setSame] = useState<boolean>(false);
-	const [avatar, setAvatar] = useState()
 
 	const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
 		event.preventDefault();
 
 		const formData = new FormData(event.currentTarget);
-		if (avatar) formData.append("avatarURL", avatar)
 
 		if (formData.get("password") !== formData.get("passwordrep")) {
 			setSame(true)
 			return null
 		}
-
-		const reqAvatar = {
-			avatarURL: formData.get("avatar")
-		};
-
-		console.log(reqAvatar);
-
-		// const handleFetch = await fetch("http://localhost:4444/user/upload", {
-		// 	method: "POST",
-		// 	body: formData
-		// })
-
-		const res = await axios.post("/user/upload", reqAvatar)
-
-		// const res = await handleFetch.json()
-
-		console.log("our avatar data: ", res.data);
 		
 		const req = {
 			fullName: formData.get("fullname"),
 			email: formData.get("email"),
 			password: formData.get("password"),
-			// avatarURL: res.data.path,
+			colorAvatar: formData.get("colorAvatar"),
 		}
-
-		console.log("Req data: ", req);
 
 		await axios.post("/user/signup", req)
 		.then( async () => {
@@ -77,8 +57,6 @@ export const SignUp = () => {
 	}
 
 	useEffect(() => {
-		console.log("Avatar: ", avatar);
-
 		if (inputPass !== inputPassRep) {
 			setSame(true)
 		} else {
@@ -129,9 +107,9 @@ export const SignUp = () => {
 							</div>
 						</div>
 						<div className='mt-5'>
-							<p className='text-lg'>Select avatar</p>
-							<div className='flex items-center'>
-								<InputImg id='input__file' name='avatar' setState={setAvatar} />
+							<p className='text-lg'>Select color</p>
+							<div className='flex items-center my-2'>
+								<SelectColor state={avatarColor} setState={setAvatarColor} />
 							</div>
 						</div>
 						<div>
