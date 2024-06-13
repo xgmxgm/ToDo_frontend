@@ -26,7 +26,7 @@ export const Message = ({ children, isVisible }: IProps) => {
 				initial='hidden'
 				animate={ isVisible ? 'visible' : 'hidden'}
 				variants={pVariants}
-				className='absolute top-0 left-[50%]'
+				className='fixed top-0 left-[50%]'
 			>
 				<div className='bg-[#181920] text-center py-2 px-4 rounded-lg border-2 border-red-500'>
 					{children}

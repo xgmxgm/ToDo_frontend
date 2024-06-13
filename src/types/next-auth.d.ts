@@ -4,7 +4,7 @@ declare module "next-auth" {
 			id: number;
 			fullName: string;
 			email: string;
-			avatarURL: string;
+			colorAvatar: string;
 			Tasks: ITask[];
 		}
 	}

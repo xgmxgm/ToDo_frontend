@@ -44,8 +44,11 @@ export const ProfileHeader = () => {
 							<Link href="/profile" className='text-[15px] text-gray-500 transition-all hover:text-slate-300'>{session.user.fullName}</Link>
 							<Link className='mx-2 transition-all hover:text-red-500' href="" onClick={() => signOut()}>Sign Out</Link>
 						</div>
-						<div className='bg-[#181920] rounded-full ml-3'>
-							<Image src={session.user.avatarURL == "defaultUser.png" ? "defaultUser.svg" : "/" + session.user.avatarURL} alt='default user' width={30} height={30} className='m-2' />
+						<div
+							className='rounded-full ml-3'
+							style={{backgroundColor: session.user.colorAvatar}}
+						>
+							<Image src={"defaultUser.svg"} alt='default user' width={30} height={30} className='m-2' />
 						</div>
 					</div>
 				</div>

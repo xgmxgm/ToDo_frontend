@@ -1,19 +1,19 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Colors } from '../data'
 
 interface IProps {
-	state: string,
 	setState: (state: string) => void,
 }
 
-export const SelectColor = ({ state, setState }: IProps) => {
+export const SelectColor = ({ setState }: IProps) => {
 	const [current, setCurrent] = useState<number>();
 
-	useEffect(() => {
-		console.log(current)
-	})
+	const handleCurrent = (index: number, color: string) => {
+		setCurrent(index)
+		setState(color)
+	}
 
 	return (
 		<>
@@ -23,13 +23,15 @@ export const SelectColor = ({ state, setState }: IProps) => {
 				{
 					Colors.map((color, index) =>
 					<div
-						onClick={() => setCurrent(index)}
-						className={`w-5 h-5 rounded-full bg-[${color.colorHEX}] cursor-pointer `}
-						// className={`w-5 h-5 rounded-full bg-[#DEB3E0] cursor-pointer`}
+						onClick={() => handleCurrent(index, color)}
+						className="w-7 h-7 rounded-full p-1 flex justify-center items-center cursor-pointer"
+						style={{border: current == index ? "2px solid #5A54D6" : "2px solid #fff", transition: "100ms"}}
 						key={index}
 					>
-						{/* <p>{color.colorHEX}</p>
-						<p>{index}</p> */}
+						<div
+							className='w-full h-full rounded-full'
+							style={{backgroundColor: color}}
+						></div>
 					</div>)
 				}
 			</div>

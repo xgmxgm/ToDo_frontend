@@ -1,6 +1,7 @@
 'use client'
 
 import { FormEventHandler, useEffect, useState } from 'react'
+import { SelectColor } from '@/shared/ui/SelectColor'
 import { ShowButton } from '@/shared/ui/ShowButton'
 import { Message } from '@/shared/ui/Message'
 import { Button } from '@/shared/ui/Button'
@@ -8,7 +9,6 @@ import { Input } from '@/shared/ui/Input'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 import axios from '@/axios'
-import { SelectColor } from '@/shared/ui/SelectColor'
 
 export const SignUp = () => {
 	const [inputPassRepShow, setInputPassRepShow] = useState<boolean>(false);
@@ -28,15 +28,23 @@ export const SignUp = () => {
 		const formData = new FormData(event.currentTarget);
 
 		if (formData.get("password") !== formData.get("passwordrep")) {
+			setMessage("Your passwords are not equal!")
+			setIsVisible(true)
 			setSame(true)
 			return null
 		}
 		
+		if (!avatarColor) {
+			setMessage("Please select color for avatar!");
+			setIsVisible(true)
+			return null
+		}
+
 		const req = {
 			fullName: formData.get("fullname"),
 			email: formData.get("email"),
 			password: formData.get("password"),
-			colorAvatar: formData.get("colorAvatar"),
+			colorAvatar: avatarColor,
 		}
 
 		await axios.post("/user/signup", req)
@@ -45,14 +53,13 @@ export const SignUp = () => {
 				email: formData.get("email"),
 				password: formData.get("password"),
 				callbackUrl: "/profile",
-				redirect: false
 			}
 	
 			await signIn('credentials', reqData)
 		})
 		.catch((error) => {
-			setIsVisible(true)
 			setMessage(error.response.data.message);
+			setIsVisible(true)
 		})
 	}
 
@@ -107,9 +114,9 @@ export const SignUp = () => {
 							</div>
 						</div>
 						<div className='mt-5'>
-							<p className='text-lg'>Select color</p>
+							<p className='text-lg'>Select color for avatar</p>
 							<div className='flex items-center my-2'>
-								<SelectColor state={avatarColor} setState={setAvatarColor} />
+								<SelectColor setState={setAvatarColor} />
 							</div>
 						</div>
 						<div>

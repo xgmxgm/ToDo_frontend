@@ -35,8 +35,11 @@ export const Profile = () => {
 				<div className='flex justify-center mt-7'>
 					<div className='text-center bg-[#21222B] p-5 rounded-lg border-gray-600 border-2'>
 						<div className='flex justify-center items-center mb-4'>
-							<div className='bg-[#181920] rounded-full p-4'>
-								<Image src={session.user.avatarURL == "defaultUser.png" ? "defaultUser.svg" : "/" + session.user.avatarURL} alt='default user' width={100} height={100} className='m-2' />
+							<div
+								className='rounded-full p-4'
+								style={{backgroundColor: session.user.colorAvatar}}
+							>
+								<Image src={"defaultUser.svg"} alt='default user' width={100} height={100} className='m-2' />
 							</div>
 						</div>
 						<div className='leading-7'>
