@@ -12,6 +12,7 @@ declare module "next-auth" {
 
 export interface ITask {
 	id: number;
+	title: string;
 	isComplete: boolean;
 	description: string;
 	authorId: number;

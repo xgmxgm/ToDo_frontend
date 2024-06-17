@@ -1,19 +1,33 @@
+import { useSession } from 'next-auth/react'
 import Image from 'next/image'
-import { forwardRef, useState } from 'react'
+import axios from "@/axios"
 
 interface IProps {
-    onClick?: () => void,
+	id: number,
+	index: number,
 }
 
-export const DeleteButton = forwardRef<HTMLButtonElement, IProps>(( props, ref ) => {
-    const { onClick } = props;
+export const DeleteButton = ({ id, index }: IProps) => {
+	const { data: session } = useSession();
 
-    return (
-        <button
-            ref={ref}
-            onClick={onClick}
-            className='transition-all rounded-lg px-[2px] py-[2px] ml-1'>
-            <Image src="cross.svg" alt='cross' width={30} height={30} />
-        </button>
-    )
-})
+	const handleFetch = async () => {
+		const req = {
+			ids: [id]
+		}
+
+		const res = await axios.post("/task/delete", req)
+
+		// session?.user.Tasks.splice(index, 1)
+		delete session?.user.Tasks[index]
+
+		console.log(res)
+	}
+
+	return (
+		<>
+			<button onClick={() => handleFetch()}>
+				<Image src="/delete.svg" alt='icon' width={27} height={27} />
+			</button>
+		</>
+	)
+}
