@@ -3,6 +3,8 @@ import type { AuthOptions } from 'next-auth';
 import jwt from 'jsonwebtoken';
 import axios from '@/axios';
 import dotenv from 'dotenv';
+import { useDispatch } from 'react-redux'
+import { setTask } from '@/store/Slice/TaskSlice'
 
 dotenv.config();
 
@@ -53,7 +55,12 @@ export const authOptions: AuthOptions = {
 			return {...token, ...user}
 		},
 		async session({ session, token }) {
+			const dispatch = useDispatch();
+
 			session.user = token as any;
+
+			dispatch(setTask(session.user.Tasks))
+
 			return session;
 		},
 	},

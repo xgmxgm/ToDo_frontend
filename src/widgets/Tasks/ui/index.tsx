@@ -1,16 +1,19 @@
 import { Checkbox } from '@/shared/ui/Checkbox'
 import { DeleteButton } from '@/shared/ui/DeleteButton'
+import { RootState } from '@/store'
 import { useSession } from 'next-auth/react'
+import { useSelector } from 'react-redux'
 
 export const Tasks = () => {
-	const { data: session } = useSession();
+	// const { data: session } = useSession();
+	const UserTasks = useSelector((state: RootState) => state.tasks);
 
 	return (
 		<>
 			<div>
 				<h2 className='text-lg text-center'>Tasks</h2>
 				{
-					session?.user.Tasks.map((task, index) => 
+					UserTasks.map((task, index) => 
 					<div
 						key={index}
 						className='min-w-60 border-2 border-[#21222B] rounded-lg px-5 py-4 my-5 flex items-center justify-between'

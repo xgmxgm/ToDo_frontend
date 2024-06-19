@@ -4,7 +4,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 const initialState: ITask[] = [];
 
 const TaskSlice = createSlice({
-	name: "Task",
+	name: "Tasks",
 	initialState,
 	reducers: {
 		setTask(state, action: PayloadAction<ITask[]>) {
