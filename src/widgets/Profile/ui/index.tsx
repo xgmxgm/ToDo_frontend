@@ -1,11 +1,16 @@
 'use client'
 
-import { Loader } from '@/shared/ui/Loader'
+import { useDispatch, useSelector } from 'react-redux'
+import { setTask } from '@/store/Slice/TaskSlice'
 import { useSession } from 'next-auth/react'
+import { Loader } from '@/shared/ui/Loader'
+import { RootState } from '@/store'
 import Image from 'next/image'
 
 export const Profile = () => {
 	const { data: session, status } = useSession()
+	const userTasks = useSelector((state: RootState) => state.tasks)
+	const dispatch = useDispatch();
 
 	if (status == "loading") {
 		return(
@@ -29,6 +34,7 @@ export const Profile = () => {
 
 	if (session) {
 		console.log("session", session)
+		dispatch(setTask(session.user.Tasks))
 
 		return (
 			<>
@@ -48,7 +54,8 @@ export const Profile = () => {
 							<h3>Tasks: {session.user.Tasks.length}</h3>
 						</div>
 						{
-							session.user.Tasks.map((task, index) => <div key={index} className='bg-slate-800 w-52 flex flex-col justify-center items-center rounded-lg my-3 py-2'>
+							// session.user.Tasks.map((task, index) => <div key={index} className='bg-slate-800 w-52 flex flex-col justify-center items-center rounded-lg my-3 py-2'>
+							userTasks.map((task, index) => <div key={index} className='bg-slate-800 w-52 flex flex-col justify-center items-center rounded-lg my-3 py-2'>
 								<div className='flex justify-between w-9/12'>
 									<input type="checkbox" checked={task.isComplete} readOnly />
 								</div>

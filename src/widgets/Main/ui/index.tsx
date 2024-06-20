@@ -1,11 +1,14 @@
 'use client'
 
 import { CreateTaskButton } from '@/shared/ui/CreateTaskButton'
+import { useDispatch, useSelector } from 'react-redux'
+import { addTask } from '@/store/Slice/TaskSlice'
 import { useSession } from 'next-auth/react'
 import { Button } from '@/shared/ui/Button'
 import { Modal } from '@/shared/ui/Modal'
 import { Input } from '@/shared/ui/Input'
 import { Tasks } from '@/widgets/Tasks'
+import { RootState } from '@/store'
 import { useState } from 'react'
 import Image from 'next/image'
 import axios from "@/axios"
@@ -14,8 +17,10 @@ export const Main = () => {
 	const [taskDescription, setTaskDescription] = useState<string>('');
 	const [openModal, setOpenModal] = useState<boolean>(false);
 	const [taskTitle, setTaskTitle] = useState<string>('');
-
+	
 	const { data: session } = useSession();
+
+	const dispatch = useDispatch();
 
 	const handleFetch = async () => {
 		const req = {
@@ -30,7 +35,7 @@ export const Main = () => {
 			setOpenModal(false)
 		}
 
-		session?.user.Tasks.push(res.data)
+		dispatch(addTask(res.data))
 
 		console.log(res)
 	}

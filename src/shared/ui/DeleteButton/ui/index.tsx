@@ -1,10 +1,9 @@
 "use client"
 
-import { useSession } from 'next-auth/react'
+import { deleteTask } from '@/store/Slice/TaskSlice'
+import { useDispatch } from 'react-redux'
 import Image from 'next/image'
 import axios from "@/axios"
-import { useSelector } from 'react-redux'
-import { RootState } from '@/store'
 
 interface IProps {
 	id: number,
@@ -12,8 +11,7 @@ interface IProps {
 }
 
 export const DeleteButton = ({ id, index }: IProps) => {
-	// const { data: session } = useSession();
-	const UserTasks = useSelector((state: RootState) => state.tasks);
+	const dispatch = useDispatch();
 
 	const handleFetch = async () => {
 		const req = {
@@ -22,8 +20,7 @@ export const DeleteButton = ({ id, index }: IProps) => {
 
 		const res = await axios.post("/task/delete", req)
 
-		// session?.user.Tasks.splice(index, 1)
-		delete UserTasks[index]
+		dispatch(deleteTask(index))
 
 		console.log(res)
 	}
