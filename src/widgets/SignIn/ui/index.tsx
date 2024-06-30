@@ -1,20 +1,26 @@
 'use client'
 
+import { FormEventHandler, useEffect, useState } from 'react'
+import { signIn, useSession } from 'next-auth/react'
+import { ShowButton } from '@/shared/ui/ShowButton'
+import { setTasks } from '@/store/Slice/TaskSlice'
+import { Message } from '@/shared/ui/Message'
+import { useRouter } from 'next/navigation'
 import { Button } from '@/shared/ui/Button'
 import { Input } from '@/shared/ui/Input'
-import { Message } from '@/shared/ui/Message'
-import { ShowButton } from '@/shared/ui/ShowButton'
-import { signIn } from 'next-auth/react'
+import { useDispatch } from 'react-redux'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { FormEventHandler, useEffect, useState } from 'react'
 
 export const SignIn = () => {
+	const [inputPassShow, setInputPassShow] = useState<boolean>(false);
 	const [inputEmail, setInputEmail] = useState<string>('');
 	const [inputPass, setInputPass] = useState<string>('');
-	const [inputPassShow, setInputPassShow] = useState<boolean>(false);
-	const [message, setMessage] = useState<string>("");
+	const [message, setMessage] = useState<string>('');
 	const [isVisible, setIsVisible] = useState(false);
+	
+	const dispatch = useDispatch();
+
+	const {data: session} = useSession();
 
 	const router = useRouter();
 
@@ -26,6 +32,7 @@ export const SignIn = () => {
 		const reqData = {
 			email: formData.get("email"),
 			password: formData.get("password"),
+			entry: "signIn",
 			redirect: false
 		}
 
@@ -48,6 +55,8 @@ export const SignIn = () => {
 
 			return () => clearTimeout(timer)
 		}
+
+		// if (session?.user.Tasks) dispatch(setTasks(session?.user.Tasks));
 	})
 
 	return (

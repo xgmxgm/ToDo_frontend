@@ -1,8 +1,5 @@
 import { withAuth } from 'next-auth/middleware'
 
-export default withAuth(function middleware(req) {
-	// console.log('req: ', req)
-	// console.log(req.nextauth.token)
-})
+export default withAuth( async function middleware(req) {})
 
 export const config = { matcher: ['/', '/profile'] }

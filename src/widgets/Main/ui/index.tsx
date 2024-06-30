@@ -1,43 +1,40 @@
 'use client'
 
 import { CreateTaskButton } from '@/shared/ui/CreateTaskButton'
-import { useDispatch, useSelector } from 'react-redux'
-import { addTask } from '@/store/Slice/TaskSlice'
 import { useSession } from 'next-auth/react'
 import { Button } from '@/shared/ui/Button'
 import { Modal } from '@/shared/ui/Modal'
 import { Input } from '@/shared/ui/Input'
 import { Tasks } from '@/widgets/Tasks'
-import { RootState } from '@/store'
 import { useState } from 'react'
 import Image from 'next/image'
 import axios from "@/axios"
 
 export const Main = () => {
-	const [taskDescription, setTaskDescription] = useState<string>('');
 	const [openModal, setOpenModal] = useState<boolean>(false);
 	const [taskTitle, setTaskTitle] = useState<string>('');
 	
-	const { data: session } = useSession();
-
-	const dispatch = useDispatch();
+	const { data: session, update } = useSession();
 
 	const handleFetch = async () => {
 		const req = {
 			title: taskTitle,
-			description: taskDescription,
 			authorId: session?.user.id
 		}
 
 		const res = await axios.post("/task/create", req)
 
 		if (res.data) {
+			const newSession = {
+				...session,
+			}
+
+			newSession.user?.Tasks.push(res.data)
+
+			await update(newSession)
+			setTaskTitle('')
 			setOpenModal(false)
 		}
-
-		dispatch(addTask(res.data))
-
-		console.log(res)
 	}
 
 	return (
@@ -55,10 +52,6 @@ export const Main = () => {
 							<div className='pb-3'>
 								<h2 className='font-semibold pb-2'>Title</h2>
 								<Input type='text' placeholder='Enter title for task' setState={setTaskTitle} state={taskTitle} />
-							</div>
-							<div className='pb-3'>
-								<h2 className='font-semibold pb-2'>Description</h2>
-								<Input type='text' placeholder='Enter description for task' setState={setTaskDescription} state={taskDescription} />
 							</div>
 							<div>
 								<Button onClick={() => handleFetch()}>Create Task</Button>

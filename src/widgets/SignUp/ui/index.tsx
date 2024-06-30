@@ -5,10 +5,10 @@ import { SelectColor } from '@/shared/ui/SelectColor'
 import { ShowButton } from '@/shared/ui/ShowButton'
 import { Message } from '@/shared/ui/Message'
 import { Button } from '@/shared/ui/Button'
+import { useRouter } from 'next/navigation'
 import { Input } from '@/shared/ui/Input'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
-import axios from '@/axios'
 
 export const SignUp = () => {
 	const [inputPassRepShow, setInputPassRepShow] = useState<boolean>(false);
@@ -21,6 +21,8 @@ export const SignUp = () => {
 	const [message, setMessage] = useState<string>('');
 	const [isVisible, setIsVisible] = useState(false);
 	const [same, setSame] = useState<boolean>(false);
+	
+	const router = useRouter();
 
 	const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
 		event.preventDefault();
@@ -40,26 +42,23 @@ export const SignUp = () => {
 			return null
 		}
 
-		const req = {
+		const reqData = {
 			fullName: formData.get("fullname"),
 			email: formData.get("email"),
 			password: formData.get("password"),
 			colorAvatar: avatarColor,
+			entry: "signUp",
+			redirect: false
 		}
 
-		await axios.post("/user/signup", req)
-		.then( async () => {
-			const reqData = {
-				email: formData.get("email"),
-				password: formData.get("password"),
-				callbackUrl: "/profile",
+		await signIn('credentials', reqData)
+		.then(({ok, error}: any) => {
+			if (ok) {
+				router.push("/profile")
+			} else {
+				setIsVisible(true)
+				setMessage(error)
 			}
-	
-			await signIn('credentials', reqData)
-		})
-		.catch((error) => {
-			setMessage(error.response.data.message);
-			setIsVisible(true)
 		})
 	}
 
