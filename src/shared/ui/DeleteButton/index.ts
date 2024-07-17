@@ -1,1 +1,1 @@
-export { DeleteButton } from "./ui"
+export { DeleteButton } from './ui'

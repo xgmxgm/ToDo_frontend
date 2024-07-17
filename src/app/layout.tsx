@@ -1,34 +1,31 @@
-import { Providers } from '@/components/Providers'
-import { Inter } from "next/font/google";
-import type { Metadata } from "next";
-import "./globals.css";
-import { Header } from '@/widgets/Header'
+import { Inter } from 'next/font/google'
+import type { Metadata } from 'next'
 
-const inter = Inter({ subsets: ["latin"] });
+import { Providers } from '@/app/providers'
+import { Header } from '@/widgets/Header'
+import './globals.css'
+
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: "To Do App",
-  description: "Next JS To Do App",
-};
+	title: 'To Do App',
+	description: 'Next JS To Do App',
+}
 
 export default function RootLayout({
-  children,
+	children,
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode
 }>) {
-  return (
-    <html lang="en">
-      <Providers>
-        <body className={inter.className}>
-          <header className='bg-[#21222B]'>
-            <Header />
-          </header>
-          <main>
-            {children}
-          </main>
-          <footer></footer>
-        </body>
-      </Providers>
-    </html>
-  );
+	return (
+		<html lang='en'>
+			<Providers>
+				<body className={inter.className}>
+					<Header />
+					<main>{children}</main>
+					<footer></footer>
+				</body>
+			</Providers>
+		</html>
+	)
 }

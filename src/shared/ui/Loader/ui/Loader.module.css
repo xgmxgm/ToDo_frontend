@@ -2,8 +2,8 @@
 	width: 50px;
 	aspect-ratio: 1;
 	border-radius: 50%;
-	border: 8px solid #21222B;
-	border-right-color: #5A54D6;
+	border: 8px solid #21222b;
+	border-right-color: #5a54d6;
 	animation: l2 1s infinite linear;
 }
 @keyframes l2 {

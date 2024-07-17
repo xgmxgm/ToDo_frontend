@@ -1,1 +1,1 @@
-export { SelectColor } from "./ui"
+export { SelectColor } from './ui'

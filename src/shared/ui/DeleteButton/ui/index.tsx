@@ -1,39 +1,15 @@
-"use client"
+'use client'
 
-import { useSession } from 'next-auth/react'
 import Image from 'next/image'
-import axios from "@/axios"
 
 interface IProps {
-	id: number,
-	index: number,
+	setState: (state: boolean) => void
 }
 
-export const DeleteButton = ({ id, index }: IProps) => {
-	const { data: session, update } = useSession();
-
-	const DeleteTaskFetch = async () => {
-		const req = {
-			ids: [id]
-		}
-
-		const res = await axios.post("/task/delete", req)
-
-		if (res.data) {
-			const newSession = {
-				...session,
-			}
-
-			newSession.user?.Tasks.splice(index, 1)
-			await update(newSession)
-		}
-	}
-
+export const DeleteButton = ({ setState }: IProps) => {
 	return (
-		<>
-			<button onClick={() => DeleteTaskFetch()}>
-				<Image src="/delete.svg" alt='icon' width={27} height={27} />
-			</button>
-		</>
+		<button onClick={() => setState(true)}>
+			<Image src='/delete.svg' alt='icon' width={27} height={27} />
+		</button>
 	)
 }

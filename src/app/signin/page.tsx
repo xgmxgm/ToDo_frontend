@@ -1,12 +1,10 @@
-import { SignIn } from '@/widgets/SignIn'
+import { SignIn } from '@/features/Auth'
 
 const SignInPage = () => {
 	return (
-		<>
-			<div>
-				<SignIn />
-			</div>
-		</>
+		<div>
+			<SignIn />
+		</div>
 	)
 }
 

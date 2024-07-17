@@ -9,11 +9,10 @@
 .custom_checkbox {
 	position: relative;
 	display: inline-block;
-	margin-right: 10px;
 	width: 25px;
 	height: 25px;
 	background-color: transparent;
-	border: 3px solid #FF5B61;
+	border: 3px solid #ff5b61;
 	border-radius: 8px;
 	vertical-align: sub;
 
@@ -41,9 +40,9 @@
 }
 
 .real_checkbox:checked + .custom_checkbox {
-	background: #FF5A60;
+	background: #ff5a60;
 }
 
 .real_checkbox:hover + .custom_checkbox {
-	box-shadow: 0 0 10px 0 #FF5B61;
+	box-shadow: 0 0 10px 0 #ff5b61;
 }
