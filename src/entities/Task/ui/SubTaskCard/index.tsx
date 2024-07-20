@@ -36,7 +36,13 @@ export const SubTaskCard: FC<IProps> = ({ subTask }) => {
 						onClick={() => CompleteTaskFetch(subTask.id)}
 					/>
 				</div>
-				<p className='text-lg font-semibold'>{subTask.title}</p>
+				{subTask.isComplete ? (
+					<p>
+						<s>{subTask.title}</s>
+					</p>
+				) : (
+					<p>{subTask.title}</p>
+				)}
 			</div>
 			<div className='flex items-center justify-center ml-3'>
 				<button onClick={() => DeleteTaskFetch()}>

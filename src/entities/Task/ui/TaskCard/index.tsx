@@ -32,7 +32,13 @@ export const TaskCard: FC<IProps> = ({ task }) => {
 							onClick={() => CompleteTaskFetch(task.id)}
 						/>
 					</div>
-					<p className='text-lg font-semibold'>{task.title}</p>
+					{task.isComplete ? (
+						<p>
+							<s>{task.title}</s>
+						</p>
+					) : (
+						<p>{task.title}</p>
+					)}
 				</div>
 				<div className='flex items-center justify-center'>
 					<DeleteButton setState={setOpenModal} />
