@@ -1,5 +1,4 @@
-import { CreateSubTaskModal } from '../CreateSubTaskModal'
-import { useCompleteTaskMutation } from '../../queries'
+import { useAddSubTaskMutation, useCompleteTaskMutation } from '../../queries'
 import { DeleteButton } from '@/shared/ui/DeleteButton'
 import { DeleteTaskModal } from '../DeleteTaskModal'
 import { Checkbox } from '@/shared/ui/Checkbox'
@@ -7,6 +6,7 @@ import { SubTaskCard } from '../SubTaskCard'
 import { Button } from '@/shared/ui/Button'
 import { TaskType } from '../../types'
 import { FC, useState } from 'react'
+import { Input } from '@/shared/ui/Input'
 
 interface IProps {
 	task: TaskType
@@ -17,14 +17,26 @@ export const TaskCard: FC<IProps> = ({ task }) => {
 	const [subTaskTitle, setSubTaskTitle] = useState<string>('')
 	const [openModal, setOpenModal] = useState<boolean>(false)
 	const [completeTask] = useCompleteTaskMutation()
+	const [addSubTask] = useAddSubTaskMutation()
 
 	const CompleteTaskFetch = async (id: number) => {
 		await completeTask({ id })
 	}
 
+	const handleFetch = async () => {
+		const req = {
+			title: subTaskTitle,
+			taskId: task.id,
+		}
+
+		await addSubTask(req)
+		setSubTaskTitle('')
+		setOpenSubTaskModal(false)
+	}
+
 	return (
-		<div className='mx-3'>
-			<div className='w-[400px] border-2 border-[#21222B] rounded-lg p-4 mt-6 mb-3 flex items-center justify-between'>
+		<div className='sm:w-[300px] w-[400px]'>
+			<div className='border-2 border-[#21222B] rounded-lg p-4 mt-6 mb-3 flex items-center justify-between'>
 				<div className='flex justify-between items-center max-w-[90%]'>
 					<div className='mr-3'>
 						<Checkbox
@@ -53,17 +65,27 @@ export const TaskCard: FC<IProps> = ({ task }) => {
 				<SubTaskCard key={index} subTask={subTask} />
 			))}
 			<div className='text-center'>
-				<Button onClick={() => setOpenSubTaskModal(true)}>
-					Add Sub Task +
-				</Button>
+				{!openSubTaskModal ? (
+					<Button onClick={() => setOpenSubTaskModal(true)}>
+						Add Sub Task +
+					</Button>
+				) : (
+					<div>
+						<div>
+							<Input
+								type='text'
+								placeholder='Enter title for sub task'
+								setState={setSubTaskTitle}
+								state={subTaskTitle}
+							/>
+						</div>
+						<div className='flex justify-between items-center gap-3'>
+							<Button onClick={() => handleFetch()}>Create</Button>
+							<Button onClick={() => setOpenSubTaskModal(false)}>Close</Button>
+						</div>
+					</div>
+				)}
 			</div>
-			<CreateSubTaskModal
-				taskId={task.id}
-				subTaskTitle={subTaskTitle}
-				setSubTaskTitle={setSubTaskTitle}
-				showModal={openSubTaskModal}
-				setShowModal={setOpenSubTaskModal}
-			/>
 		</div>
 	)
 }

@@ -28,7 +28,7 @@ export const SubTaskCard: FC<IProps> = ({ subTask }) => {
 	}
 
 	return (
-		<div className='border-2 border-[#5A54D6] rounded-lg px-3 py-3 mt-3 flex items-center justify-between'>
+		<div className='border-2 border-[#5A54D6] rounded-lg px-3 py-3 mb-3 flex items-center justify-between'>
 			<div className='flex justify-between items-center max-w-[90%]'>
 				<div className='mr-3'>
 					<Checkbox

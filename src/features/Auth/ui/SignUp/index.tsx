@@ -138,7 +138,7 @@ export const SignUp = () => {
 								<SelectColor setState={setAvatarColor} />
 							</div>
 						</div>
-						<div>
+						<div className='my-4'>
 							<Button>
 								<p>Create an account</p>
 							</Button>

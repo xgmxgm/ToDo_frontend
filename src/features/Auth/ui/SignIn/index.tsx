@@ -75,7 +75,7 @@ export const SignIn = () => {
 								<ShowButton state={inputPassShow} setState={setInputPassShow} />
 							</div>
 						</div>
-						<div>
+						<div className='my-4'>
 							<Button>
 								<p>Sign in an account</p>
 							</Button>
