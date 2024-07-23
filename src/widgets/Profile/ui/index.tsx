@@ -3,9 +3,18 @@
 import { useSession } from 'next-auth/react'
 import { Loader } from '@/shared/ui/Loader'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 export const Profile = () => {
 	const { data: session, status } = useSession()
+	const router = useRouter()
+
+	useEffect(() => {
+		if (!session) {
+			router.push('/signin')
+		}
+	}, [session])
 
 	if (status == 'loading') {
 		return (
@@ -16,6 +25,8 @@ export const Profile = () => {
 	}
 
 	if (!session) {
+		router.push('/signin')
+
 		return (
 			<div className='flex items-center justify-center'>
 				<h2>Not authenticated</h2>
