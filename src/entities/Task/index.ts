@@ -1,4 +1,5 @@
 export { DeleteTaskModal } from './ui/DeleteTaskModal'
 export { CreateTaskModal } from './ui/CreateTaskModal'
+export { ChangeTask } from './ui/ChangeTask'
 export { SubTaskCard } from './ui/SubTaskCard'
 export { TaskCard } from './ui/TaskCard'

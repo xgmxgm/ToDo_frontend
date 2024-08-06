@@ -39,3 +39,5 @@ export interface CreateSubTaskType {
 	subTaskTitle: string
 	setSubTaskTitle: (taskTitle: string) => void
 }
+
+export interface ChangeTaskType {}

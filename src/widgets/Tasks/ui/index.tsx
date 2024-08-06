@@ -1,11 +1,13 @@
 'use client'
 
 import { useGetTasksQuery } from '@/entities/Task/queries'
+import { ChangeTask, TaskCard } from '@/entities/Task'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { skipToken } from '@reduxjs/toolkit/query'
 import { TaskType } from '@/entities/Task/types'
 import { useSession } from 'next-auth/react'
-import { TaskCard } from '@/entities/Task'
+import { EffectFlip } from 'swiper/modules'
+import 'swiper/css/effect-fade'
 import 'swiper/css'
 
 export const Tasks = () => {
@@ -27,10 +29,23 @@ export const Tasks = () => {
 							}}
 						>
 							{Tasks.map((task: TaskType, index: number) => (
-								<SwiperSlide key={index}>
-									<div className='flex justify-center items-center'>
-										<TaskCard key={index} task={task} />
-									</div>
+								<SwiperSlide key={task.id}>
+									<Swiper
+										modules={[EffectFlip]}
+										effect='flip'
+										allowTouchMove={false}
+									>
+										<SwiperSlide>
+											<div className='flex justify-center items-center'>
+												<TaskCard task={task} />
+											</div>
+										</SwiperSlide>
+										<SwiperSlide>
+											<div className='flex justify-center items-center'>
+												<ChangeTask task={task} />
+											</div>
+										</SwiperSlide>
+									</Swiper>
 								</SwiperSlide>
 							))}
 						</Swiper>

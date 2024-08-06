@@ -11,10 +11,10 @@ export const Profile = () => {
 	const router = useRouter()
 
 	useEffect(() => {
-		if (!session) {
+		if (!session && status == 'unauthenticated') {
 			router.push('/signin')
 		}
-	}, [session])
+	})
 
 	if (status == 'loading') {
 		return (

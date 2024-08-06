@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
-import taskReducer from '../../entities/Task/slice'
+import subTaskReducer from '../../entities/Task/slice'
 import { rtkApi } from '@/shared/libs/api/init'
 
 export const store = configureStore({
 	reducer: {
-		tasks: taskReducer,
+		subtasks: subTaskReducer,
 		[rtkApi.reducerPath]: rtkApi.reducer,
 	},
 	middleware: getDefaultMiddleware =>

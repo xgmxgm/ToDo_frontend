@@ -1,29 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { TaskType } from '../types'
 
-const initialState: TaskType[] = []
+const initialState: {title: string}[] = []
 
-const TaskSlice = createSlice({
+const SubtaskSlice = createSlice({
 	name: 'Tasks',
 	initialState,
 	reducers: {
-		setTasks(state, action: PayloadAction<TaskType[]>) {
-			state = action.payload
-			return state
-		},
-		addTask(state, action: PayloadAction<TaskType>) {
-			state.push(action.payload)
-			return state
-		},
-		deleteTask(state, action: PayloadAction<number>) {
-			return state.filter((_, index) => index !== action.payload)
-		},
-		completeTask(state, action: PayloadAction<number>) {
-			state[action.payload].isComplete = !state[action.payload].isComplete
-			return state
-		},
+		setCurrentsubtask: (state, { payload }: PayloadAction<{title: string}[]>) => {
+			state = payload
+		}
 	},
 })
 
-export const { setTasks, addTask, deleteTask, completeTask } = TaskSlice.actions
-export default TaskSlice.reducer
+export const { setCurrentsubtask } = SubtaskSlice.actions
+export default SubtaskSlice.reducer

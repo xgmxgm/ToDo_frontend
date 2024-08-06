@@ -1,10 +1,12 @@
 import { useAddTaskMutation } from '../../queries'
 import { type CreateTaskType } from '../../types'
+import { CreateSubTask } from '../CreateSubTask'
 import { useSession } from 'next-auth/react'
 import { Button } from '@/shared/ui/Button'
 import { Input } from '@/shared/ui/Input'
 import { Modal } from '@/shared/ui/Modal'
 import Image from 'next/image'
+import { useState } from 'react'
 
 export const CreateTaskModal = ({
 	showModal,
@@ -12,6 +14,7 @@ export const CreateTaskModal = ({
 	taskTitle,
 	setTaskTitle,
 }: CreateTaskType) => {
+	const [subtasks, setSubtasks] = useState<{ title: string }[]>([])
 	const { data: session } = useSession()
 	const [addTask] = useAddTaskMutation()
 
@@ -19,11 +22,13 @@ export const CreateTaskModal = ({
 		const req = {
 			title: taskTitle,
 			authorId: session?.user.id,
+			subtasks,
 		}
 
 		await addTask(req)
 		setTaskTitle('')
 		setShowModal(false)
+		setSubtasks([])
 	}
 
 	return (
@@ -32,9 +37,10 @@ export const CreateTaskModal = ({
 				onKeyDown={e => {
 					e.key === 'Enter' && handleFetch()
 				}}
+				className='w-[300px]'
 			>
 				<div className='flex justify-between items-center pb-4'>
-					<h2 className='text-lg font-semibold'>Create Task</h2>
+					<h2 className='text-lg font-semibold'>Create New Task</h2>
 					<button onClick={() => setShowModal(false)}>
 						<Image src='/cross.svg' alt='icon' width={11} height={11} />
 					</button>
@@ -48,8 +54,14 @@ export const CreateTaskModal = ({
 						state={taskTitle}
 					/>
 				</div>
+				<div className='pb-3'>
+					<h2 className='font-semibold pb-2'>Subtasks</h2>
+					<CreateSubTask subtasks={subtasks} setSubtasks={setSubtasks} />
+				</div>
 				<div>
-					<Button onClick={() => handleFetch()}>Create</Button>
+					<Button onClick={() => handleFetch()} className='mt-1'>
+						Create Task
+					</Button>
 				</div>
 			</div>
 		</Modal>
