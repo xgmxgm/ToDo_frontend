@@ -4,8 +4,8 @@ export const rtkApi = createApi({
 	reducerPath: 'api',
 	tagTypes: ['Task'],
 	baseQuery: fetchBaseQuery({
-		// baseUrl: 'https://todobackend-production-77ec.up.railway.app',
-		baseUrl: 'http://localhost:4444',
+		baseUrl: 'https://todobackend-production-77ec.up.railway.app',
+		// baseUrl: 'http://localhost:4444',
 	}),
 	endpoints: () => ({}),
 })
