@@ -54,6 +54,22 @@ export const taskApi = rtkApi.injectEndpoints({
 			}),
 			invalidatesTags: ['Task'],
 		}),
+		editTask: build.mutation({
+			query: body => ({
+				url: '/task/edit/task',
+				method: 'POST',
+				body,
+			}),
+			invalidatesTags: ['Task'],
+		}),
+		editSubTask: build.mutation({
+			query: body => ({
+				url: '/task/edit/subtask',
+				method: 'POST',
+				body,
+			}),
+			invalidatesTags: ['Task'],
+		}),
 	}),
 })
 
@@ -65,4 +81,6 @@ export const {
 	useAddSubTaskMutation,
 	useDeleteSubTaskMutation,
 	useCompleteSubTaskMutation,
+	useEditTaskMutation,
+	useEditSubTaskMutation,
 } = taskApi

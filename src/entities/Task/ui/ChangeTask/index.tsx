@@ -1,34 +1,28 @@
 import {
 	useAddSubTaskMutation,
-	useDeleteSubTaskMutation,
 	useDeleteTaskMutation,
+	useEditTaskMutation,
 } from '../../queries'
 import { SubTaskCard } from '../SubTaskCard'
+import { Button } from '@/shared/ui/Button'
+import React, { FC, useState } from 'react'
 import { useSwiper } from 'swiper/react'
 import { TaskType } from '../../types'
-import React, { FC, useState } from 'react'
 import Image from 'next/image'
-import { Button } from '@/shared/ui/Button'
 
 interface IProps {
 	task: TaskType
 }
 
 export const ChangeTask: FC<IProps> = ({ task }) => {
+	const [inputValueTitle, setInputValueTitle] = useState<string>(task.title)
 	const [addSubtaskModal, setAddSubtaskModal] = useState<boolean>(false)
+	const [editTitle, setEditTitle] = useState<boolean>(false)
 	const [inputValue, setInputValue] = useState<string>('')
-	const [deleteSubTask] = useDeleteSubTaskMutation()
-	const [deleteTask] = useDeleteTaskMutation()
 	const [createSubtask] = useAddSubTaskMutation()
+	const [deleteTask] = useDeleteTaskMutation()
+	const [editTask] = useEditTaskMutation()
 	const swiper = useSwiper()
-
-	const DeleteSubtaskFetch = async (id: number) => {
-		const req = {
-			id,
-		}
-
-		await deleteSubTask(req)
-	}
 
 	const DeleteTaskFetch = async (id: number) => {
 		const req = {
@@ -49,6 +43,16 @@ export const ChangeTask: FC<IProps> = ({ task }) => {
 		setInputValue('')
 	}
 
+	const handleEditTask = async () => {
+		const req = {
+			id: task.id,
+			title: inputValueTitle,
+		}
+
+		await editTask(req)
+		setEditTitle(false)
+	}
+
 	return (
 		<div className='sm:w-[300px] w-[400px] cursor-pointer'>
 			<div className='border-2 border-[#21222B] rounded-lg p-4 mt-6 flex flex-col gap-4'>
@@ -60,25 +64,52 @@ export const ChangeTask: FC<IProps> = ({ task }) => {
 				</div>
 				<div>
 					<h2 className='font-bold text-lg'>Title</h2>
-					<p>{task.title}</p>
+					{!editTitle ? (
+						<div className='flex items-center justify-between'>
+							<p>{task.title}</p>
+							<button onClick={() => setEditTitle(true)}>
+								<Image
+									src='/icons/edit-pen.svg'
+									alt='icon'
+									width={17}
+									height={17}
+								/>
+							</button>
+						</div>
+					) : (
+						<div className='flex items-center gap-2'>
+							<input
+								type='text'
+								value={inputValueTitle}
+								placeholder='Enter title'
+								onChange={e => setInputValueTitle(e.target.value)}
+								className='rounded-md font-medium outline-none px-4 py-2 bg-transparent border-[1px] border-[#707088] my-2 transition-all duration-200 focus:bg-slate-100 focus:text-[#707088] w-full'
+							/>
+							<Button
+								onClick={() => handleEditTask()}
+								className='w-36 flex items-center justify-center gap-2'
+							>
+								<Image
+									src='icons/check.svg'
+									alt='icon'
+									width={20}
+									height={20}
+								/>
+								Save
+							</Button>
+						</div>
+					)}
 				</div>
 				<div>
 					<h2 className='font-bold text-lg'>Subtasks</h2>
 					{task.subTasks.length ? (
 						task.subTasks.map((subTask, index) => (
-							<div
-								className='flex items-center justify-between'
-								key={subTask.id}
-							>
+							<div key={subTask.id}>
 								<SubTaskCard
 									subTask={subTask}
 									lastRoute={index == task.subTasks.length - 1 ? false : true}
+									mode='edit'
 								/>
-								<div className='flex items-center justify-center'>
-									<button onClick={() => DeleteSubtaskFetch(subTask.id)}>
-										<Image src='/cross.svg' alt='icon' width={11} height={11} />
-									</button>
-								</div>
 							</div>
 						))
 					) : (
