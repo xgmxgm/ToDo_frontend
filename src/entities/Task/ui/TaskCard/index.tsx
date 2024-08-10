@@ -44,6 +44,7 @@ export const TaskCard: FC<IProps> = ({ task }) => {
 			</div>
 			{task.subTasks.map((subTask, index) => (
 				<SubTaskCard
+					mode='view'
 					key={subTask.id}
 					subTask={subTask}
 					lastRoute={index == task.subTasks.length - 1 ? false : true}
