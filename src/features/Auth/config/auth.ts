@@ -1,7 +1,6 @@
 import Credentials from 'next-auth/providers/credentials'
 import axios from '@/shared/libs/axios/init/axios'
 import type { AuthOptions } from 'next-auth'
-import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 
 dotenv.config()
@@ -29,21 +28,12 @@ export const authOptions: AuthOptions = {
 							password: credentials.password,
 						})
 
-						if (signinResponse.data.token) {
-							const token = signinResponse.data.token
-							const decodedToken = jwt.verify(
-								token,
-								process.env.NEXTAUTH_SECRET as string
-							) as any
+						console.log('res: ', signinResponse.data)
 
-							if (decodedToken) {
-								const user = {
-									...decodedToken,
-									token: token,
-								}
-
-								return user
-							}
+						if (signinResponse.data) {
+							const user = signinResponse.data
+							console.log('auth config: ', user)
+							return user
 						}
 					} catch (signinError: any) {
 						throw new Error(signinError.response.data.message)
@@ -59,21 +49,10 @@ export const authOptions: AuthOptions = {
 							colorAvatar: credentials.colorAvatar,
 						})
 
-						if (signupResponse.data.token) {
-							const token = signupResponse.data.token
-							const decodedToken = jwt.verify(
-								token,
-								process.env.NEXTAUTH_SECRET as string
-							) as any
-
-							if (decodedToken) {
-								const user = {
-									...decodedToken,
-									Tasks: [],
-									token: token,
-								}
-								return user
-							}
+						if (signupResponse.data) {
+							const user = signupResponse.data
+							console.log('auth config: ', user)
+							return user
 						}
 					} catch (signupError: any) {
 						throw new Error(signupError.response.data.message)
@@ -85,13 +64,11 @@ export const authOptions: AuthOptions = {
 		}),
 	],
 	callbacks: {
-		async jwt({ token, user, trigger, session }) {
-			if (trigger === 'update' && session) return { ...token, ...session.user }
+		async jwt({ token, user }) {
 			return { ...token, ...user }
 		},
 		async session({ session, token }) {
 			session.user = token as any
-
 			return session
 		},
 	},

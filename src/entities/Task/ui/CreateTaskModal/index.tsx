@@ -5,8 +5,8 @@ import { useSession } from 'next-auth/react'
 import { Button } from '@/shared/ui/Button'
 import { Input } from '@/shared/ui/Input'
 import { Modal } from '@/shared/ui/Modal'
-import Image from 'next/image'
 import { useState } from 'react'
+import Image from 'next/image'
 
 export const CreateTaskModal = ({
 	showModal,
@@ -20,9 +20,12 @@ export const CreateTaskModal = ({
 
 	const handleFetch = async () => {
 		const req = {
-			title: taskTitle,
-			authorId: session?.user.id,
-			subtasks,
+			body: {
+				title: taskTitle,
+				authorId: session?.user.id,
+				subtasks,
+			},
+			token: session?.user.accessToken,
 		}
 
 		await addTask(req)

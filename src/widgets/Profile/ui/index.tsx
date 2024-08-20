@@ -2,9 +2,9 @@
 
 import { useSession } from 'next-auth/react'
 import { Loader } from '@/shared/ui/Loader'
-import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
+import Image from 'next/image'
 
 export const Profile = () => {
 	const { data: session, status } = useSession()
@@ -14,6 +14,9 @@ export const Profile = () => {
 		if (!session && status == 'unauthenticated') {
 			router.push('/signin')
 		}
+	})
+	useEffect(() => {
+		console.log('session: ', session)
 	})
 
 	if (status == 'loading') {
@@ -60,7 +63,7 @@ export const Profile = () => {
 							{session?.user?.fullName}
 						</h2>
 						<h3>{session?.user?.email}</h3>
-						<h3>Tasks: {session.user.Tasks.length}</h3>
+						{/* <h3>Tasks: {session.user.Tasks.length}</h3> */}
 					</div>
 				</div>
 			</div>

@@ -5,7 +5,8 @@ declare module 'next-auth' {
 			fullName: string
 			email: string
 			colorAvatar: string
-			Tasks: ITask[]
+			accessToken: string
+			refreshToken: string
 		}
 	}
 }
@@ -23,6 +24,5 @@ export interface IUser {
 		fullName: string
 		email: string
 		avatarURL: string
-		Tasks: ITask[]
 	}
 }

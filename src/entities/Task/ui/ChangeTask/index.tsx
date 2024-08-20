@@ -4,6 +4,7 @@ import {
 	useEditTaskMutation,
 } from '../../queries'
 import { SubTaskCard } from '../SubTaskCard'
+import { useSession } from 'next-auth/react'
 import { Button } from '@/shared/ui/Button'
 import React, { FC, useState } from 'react'
 import { useSwiper } from 'swiper/react'
@@ -22,11 +23,15 @@ export const ChangeTask: FC<IProps> = ({ task }) => {
 	const [createSubtask] = useAddSubTaskMutation()
 	const [deleteTask] = useDeleteTaskMutation()
 	const [editTask] = useEditTaskMutation()
+	const { data: session } = useSession()
 	const swiper = useSwiper()
 
 	const DeleteTaskFetch = async (id: number) => {
 		const req = {
-			ids: [id],
+			body: {
+				ids: [id],
+			},
+			token: session?.user.accessToken,
 		}
 
 		await deleteTask(req)
@@ -34,8 +39,11 @@ export const ChangeTask: FC<IProps> = ({ task }) => {
 
 	const handleCraeteSubtask = async () => {
 		const req = {
-			taskId: task.id,
-			title: inputValue,
+			body: {
+				taskId: task.id,
+				title: inputValue,
+			},
+			token: session?.user.accessToken,
 		}
 
 		await createSubtask(req)
@@ -45,8 +53,11 @@ export const ChangeTask: FC<IProps> = ({ task }) => {
 
 	const handleEditTask = async () => {
 		const req = {
-			id: task.id,
-			title: inputValueTitle,
+			body: {
+				id: task.id,
+				title: inputValueTitle,
+			},
+			token: session?.user.accessToken,
 		}
 
 		await editTask(req)

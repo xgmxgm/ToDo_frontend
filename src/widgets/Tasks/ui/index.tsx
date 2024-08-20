@@ -12,7 +12,15 @@ import 'swiper/css'
 
 export const Tasks = () => {
 	const { data: session } = useSession()
-	const { data: Tasks = [] } = useGetTasksQuery(session?.user.id ?? skipToken)
+	const token = session?.user.accessToken
+	const { data: Tasks = [] } = useGetTasksQuery(
+		session?.user.id
+			? {
+					authorId: session?.user.id,
+					token,
+			  }
+			: skipToken
+	)
 
 	return (
 		<div>
@@ -28,11 +36,11 @@ export const Tasks = () => {
 								1300: { slidesPerView: 3 },
 							}}
 						>
-							{Tasks.map((task: TaskType, index: number) => (
+							{Tasks.map((task: TaskType) => (
 								<SwiperSlide key={task.id}>
 									<Swiper
-										modules={[EffectFlip]}
 										effect='flip'
+										modules={[EffectFlip]}
 										allowTouchMove={false}
 									>
 										<SwiperSlide>
