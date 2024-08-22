@@ -79,10 +79,12 @@ export const SubTaskCard: FC<IProps> = ({
 								/>
 							)}
 						</div>
-						<Checkbox
-							checked={subTask.isComplete}
-							onClick={() => CompleteTaskFetch(subTask.id)}
-						/>
+						{mode == 'view' && (
+							<Checkbox
+								checked={subTask.isComplete}
+								onClick={() => CompleteTaskFetch(subTask.id)}
+							/>
+						)}
 					</div>
 					<div>
 						{subTask.isComplete ? (

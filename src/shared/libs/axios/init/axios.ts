@@ -5,4 +5,6 @@ const instance = axios.create({
 	baseURL: 'http://localhost:4444',
 })
 
+instance.interceptors.response.use()
+
 export default instance
