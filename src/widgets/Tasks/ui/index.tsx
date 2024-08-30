@@ -12,12 +12,10 @@ import 'swiper/css'
 
 export const Tasks = () => {
 	const { data: session } = useSession()
-	const token = session?.user.accessToken
 	const { data: Tasks = [] } = useGetTasksQuery(
 		session?.user.id
 			? {
 					authorId: session?.user.id,
-					token,
 			  }
 			: skipToken
 	)

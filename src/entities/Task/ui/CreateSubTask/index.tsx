@@ -1,6 +1,6 @@
-import React from 'react'
 import { Button } from '@/shared/ui/Button'
 import Image from 'next/image'
+import React from 'react'
 
 interface IProps {
 	subtasks: { title: string }[]

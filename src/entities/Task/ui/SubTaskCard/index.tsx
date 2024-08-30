@@ -29,7 +29,7 @@ export const SubTaskCard: FC<IProps> = ({
 	const { data: session } = useSession()
 
 	const CompleteTaskFetch = async (id: number) => {
-		await completeSubTask({ body: { id }, token: session?.user.accessToken })
+		await completeSubTask({ body: { id } })
 	}
 
 	const DeleteSubtaskFetch = async (id: number) => {
@@ -37,7 +37,6 @@ export const SubTaskCard: FC<IProps> = ({
 			body: {
 				id,
 			},
-			token: session?.user.accessToken,
 		}
 
 		await deleteSubTask(req)
@@ -49,7 +48,6 @@ export const SubTaskCard: FC<IProps> = ({
 				id: subTask.id,
 				title: inputValue,
 			},
-			token: session?.user.accessToken,
 		}
 
 		await editSubtask(req)

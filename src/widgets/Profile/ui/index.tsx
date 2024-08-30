@@ -15,9 +15,6 @@ export const Profile = () => {
 			router.push('/signin')
 		}
 	})
-	useEffect(() => {
-		console.log('session: ', session)
-	})
 
 	if (status == 'loading') {
 		return (
@@ -63,7 +60,6 @@ export const Profile = () => {
 							{session?.user?.fullName}
 						</h2>
 						<h3>{session?.user?.email}</h3>
-						{/* <h3>Tasks: {session.user.Tasks.length}</h3> */}
 					</div>
 				</div>
 			</div>

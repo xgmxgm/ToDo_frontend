@@ -25,7 +25,6 @@ export const CreateTaskModal = ({
 				authorId: session?.user.id,
 				subtasks,
 			},
-			token: session?.user.accessToken,
 		}
 
 		await addTask(req)

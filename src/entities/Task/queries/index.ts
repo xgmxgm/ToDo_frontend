@@ -5,9 +5,6 @@ export const taskApi = rtkApi.injectEndpoints({
 		getTasks: build.query({
 			query: params => ({
 				url: `/task/get-tasks/${params.authorId}`,
-				headers: {
-					Authorization: `Bearer ${params.token}`,
-				},
 			}),
 			providesTags: ['Task'],
 		}),
@@ -16,9 +13,6 @@ export const taskApi = rtkApi.injectEndpoints({
 				url: '/task/create',
 				method: 'POST',
 				body: params.body,
-				headers: {
-					Authorization: `Bearer ${params.token}`,
-				},
 			}),
 			invalidatesTags: ['Task'],
 		}),
@@ -27,9 +21,6 @@ export const taskApi = rtkApi.injectEndpoints({
 				url: '/task/delete',
 				method: 'POST',
 				body: params.body,
-				headers: {
-					Authorization: `Bearer ${params.token}`,
-				},
 			}),
 			invalidatesTags: ['Task'],
 		}),
@@ -38,9 +29,6 @@ export const taskApi = rtkApi.injectEndpoints({
 				url: '/task/complete',
 				method: 'POST',
 				body: params.body,
-				headers: {
-					Authorization: `Bearer ${params.token}`,
-				},
 			}),
 			invalidatesTags: ['Task'],
 		}),
@@ -49,9 +37,6 @@ export const taskApi = rtkApi.injectEndpoints({
 				url: '/task/create-sub-task',
 				method: 'POST',
 				body: params.body,
-				headers: {
-					Authorization: `Bearer ${params.token}`,
-				},
 			}),
 			invalidatesTags: ['Task'],
 		}),
@@ -60,9 +45,6 @@ export const taskApi = rtkApi.injectEndpoints({
 				url: '/task/delete-sub-task',
 				method: 'POST',
 				body: params.body,
-				headers: {
-					Authorization: `Bearer ${params.token}`,
-				},
 			}),
 			invalidatesTags: ['Task'],
 		}),
@@ -71,9 +53,6 @@ export const taskApi = rtkApi.injectEndpoints({
 				url: '/task/complete-sub-task',
 				method: 'POST',
 				body: params.body,
-				headers: {
-					Authorization: `Bearer ${params.token}`,
-				},
 			}),
 			invalidatesTags: ['Task'],
 		}),
@@ -82,9 +61,6 @@ export const taskApi = rtkApi.injectEndpoints({
 				url: '/task/edit/task',
 				method: 'POST',
 				body: params.body,
-				headers: {
-					Authorization: `Bearer ${params.token}`,
-				},
 			}),
 			invalidatesTags: ['Task'],
 		}),
@@ -93,9 +69,6 @@ export const taskApi = rtkApi.injectEndpoints({
 				url: '/task/edit/subtask',
 				method: 'POST',
 				body: params.body,
-				headers: {
-					Authorization: `Bearer ${params.token}`,
-				},
 			}),
 			invalidatesTags: ['Task'],
 		}),

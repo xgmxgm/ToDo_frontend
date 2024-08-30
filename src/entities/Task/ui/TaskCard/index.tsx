@@ -17,7 +17,7 @@ export const TaskCard: FC<IProps> = ({ task }) => {
 	const swiper = useSwiper()
 
 	const CompleteTaskFetch = async (id: number) => {
-		await completeTask({ body: { id }, token: session?.user.accessToken })
+		await completeTask({ body: { id } })
 	}
 
 	return (

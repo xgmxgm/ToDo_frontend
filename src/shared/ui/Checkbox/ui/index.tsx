@@ -1,5 +1,5 @@
-import { forwardRef } from 'react'
 import styles from './Checkbox.module.scss'
+import { forwardRef } from 'react'
 
 interface IProps {
 	onClick?: any

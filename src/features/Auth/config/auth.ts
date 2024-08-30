@@ -28,11 +28,9 @@ export const authOptions: AuthOptions = {
 							password: credentials.password,
 						})
 
-						console.log('res: ', signinResponse.data)
-
 						if (signinResponse.data) {
 							const user = signinResponse.data
-							console.log('auth config: ', user)
+
 							return user
 						}
 					} catch (signinError: any) {
@@ -51,7 +49,6 @@ export const authOptions: AuthOptions = {
 
 						if (signupResponse.data) {
 							const user = signupResponse.data
-							console.log('auth config: ', user)
 							return user
 						}
 					} catch (signupError: any) {

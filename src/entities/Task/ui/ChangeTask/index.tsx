@@ -31,7 +31,6 @@ export const ChangeTask: FC<IProps> = ({ task }) => {
 			body: {
 				ids: [id],
 			},
-			token: session?.user.accessToken,
 		}
 
 		await deleteTask(req)
