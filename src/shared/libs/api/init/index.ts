@@ -8,7 +8,7 @@ const refreshAccessToken = async () => {
 	}
 
 	const response = await fetch(
-		`${process.env.SERVER_URL}/user/refresh` ||
+		`${process.env.NEXT_PUBLIC_SERVER_URL}/user/refresh` ||
 			'http://localhost:4444/user/refresh',
 		{
 			method: 'POST',
@@ -29,7 +29,7 @@ const refreshAccessToken = async () => {
 
 const baseQuery = async (args: any, api: any, extraOptions: any) => {
 	let result = await fetchBaseQuery({
-		baseUrl: process.env.SERVER_URL || 'http://localhost:4444',
+		baseUrl: process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:4444',
 		prepareHeaders: async headers => {
 			const session = await getSession()
 			if (session?.user.accessToken) {
@@ -44,7 +44,7 @@ const baseQuery = async (args: any, api: any, extraOptions: any) => {
 			const newToken = await refreshAccessToken()
 
 			result = await fetchBaseQuery({
-				baseUrl: process.env.SERVER_URL || 'http://localhost:4444',
+				baseUrl: process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:4444',
 				prepareHeaders: headers => {
 					headers.set('Authorization', `Bearer ${newToken}`)
 					return headers
