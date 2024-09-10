@@ -1,8 +1,8 @@
 .loader {
-	width: 50px;
+	width: 70px;
 	aspect-ratio: 1;
 	border-radius: 50%;
-	border: 8px solid #21222b;
+	border: 11px solid #21222b;
 	border-right-color: #5a54d6;
 	animation: l2 1s infinite linear;
 }
