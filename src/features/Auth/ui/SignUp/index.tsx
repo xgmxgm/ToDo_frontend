@@ -9,12 +9,14 @@ import { useRouter } from 'next/navigation'
 import { Input } from '@/shared/ui/Input'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
+import { Loader } from '@/shared/ui/Loader'
 
 export const SignUp = () => {
 	const [inputPassRepShow, setInputPassRepShow] = useState<boolean>(false)
 	const [inputPassShow, setInputPassShow] = useState<boolean>(false)
 	const [inputFullName, setInputFullName] = useState<string>('')
 	const [inputPassRep, setInputPassRep] = useState<string>('')
+	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [avatarColor, setAvatarColor] = useState<string>('')
 	const [inputEmail, setInputEmail] = useState<string>('')
 	const [inputPass, setInputPass] = useState<string>('')
@@ -51,10 +53,14 @@ export const SignUp = () => {
 			redirect: false,
 		}
 
+		setIsLoading(true)
+
 		await signIn('credentials', reqData).then(({ ok, error }: any) => {
 			if (ok) {
 				router.push('/profile')
+				setIsLoading(false)
 			} else {
+				setIsLoading(false)
 				setIsVisible(true)
 				setMessage(error)
 			}
@@ -80,6 +86,13 @@ export const SignUp = () => {
 						<h2 className='text-2xl font-semibold'>Welcome to To Do App</h2>
 						<h3 className='text-[#707088] text-lg font-medium'>Sign up</h3>
 					</div>
+					{isLoading ? (
+						<div>
+							<Loader />
+						</div>
+					) : (
+						<div></div>
+					)}
 					<form onSubmit={handleSubmit}>
 						<div className='mt-5'>
 							<p className='text-lg'>Full name</p>

@@ -1,6 +1,5 @@
 import { useCompleteTaskMutation } from '../../queries'
 import { Checkbox } from '@/shared/ui/Checkbox'
-import { useSession } from 'next-auth/react'
 import { SubTaskCard } from '../SubTaskCard'
 import { useSwiper } from 'swiper/react'
 import { TaskType } from '../../types'
@@ -13,7 +12,6 @@ interface IProps {
 
 export const TaskCard: FC<IProps> = ({ task }) => {
 	const [completeTask] = useCompleteTaskMutation()
-	const { data: session } = useSession()
 	const swiper = useSwiper()
 
 	const CompleteTaskFetch = async (id: number) => {

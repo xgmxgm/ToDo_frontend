@@ -4,7 +4,6 @@ import {
 	useEditSubTaskMutation,
 } from '../../queries'
 import { Checkbox } from '@/shared/ui/Checkbox'
-import { useSession } from 'next-auth/react'
 import { Button } from '@/shared/ui/Button'
 import { SubTaskType } from '../../types'
 import { FC, useState } from 'react'
@@ -26,7 +25,6 @@ export const SubTaskCard: FC<IProps> = ({
 	const [completeSubTask] = useCompleteSubTaskMutation()
 	const [deleteSubTask] = useDeleteSubTaskMutation()
 	const [editSubtask] = useEditSubTaskMutation()
-	const { data: session } = useSession()
 
 	const CompleteTaskFetch = async (id: number) => {
 		await completeSubTask({ body: { id } })

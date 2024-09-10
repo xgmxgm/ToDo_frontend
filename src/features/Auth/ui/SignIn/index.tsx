@@ -3,12 +3,12 @@
 import { ShowButton } from '@/shared/ui/ShowButton'
 import { FormEventHandler, useState } from 'react'
 import { Message } from '@/features/Message'
+import { Loader } from '@/shared/ui/Loader'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/shared/ui/Button'
 import { Input } from '@/shared/ui/Input'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
-import { Loader } from '@/shared/ui/Loader'
 
 export const SignIn = () => {
 	const [inputPassShow, setInputPassShow] = useState<boolean>(false)
@@ -36,8 +36,8 @@ export const SignIn = () => {
 
 		await signIn('credentials', reqData).then(({ ok, error }: any) => {
 			if (ok) {
-				setIsLoading(false)
 				router.push('/profile')
+				setIsLoading(false)
 			} else {
 				setIsLoading(false)
 				setIsVisible(true)
@@ -57,7 +57,13 @@ export const SignIn = () => {
 						<h2 className='text-2xl font-semibold'>Welcome to To Do App</h2>
 						<h3 className='text-[#707088] text-lg font-medium'>Sign in</h3>
 					</div>
-					{isLoading ? <div><Loader /></div> : <div></div>}
+					{isLoading ? (
+						<div>
+							<Loader />
+						</div>
+					) : (
+						<div></div>
+					)}
 					<form onSubmit={handleSubmit}>
 						<div className='mt-5'>
 							<p className='text-lg'>E-mail</p>

@@ -6,13 +6,14 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import { skipToken } from '@reduxjs/toolkit/query'
 import { TaskType } from '@/entities/Task/types'
 import { useSession } from 'next-auth/react'
+import { Loader } from '@/shared/ui/Loader'
 import { EffectFlip } from 'swiper/modules'
 import 'swiper/css/effect-fade'
 import 'swiper/css'
 
 export const Tasks = () => {
 	const { data: session } = useSession()
-	const { data: Tasks = [] } = useGetTasksQuery(
+	const { data: Tasks = [], isLoading } = useGetTasksQuery(
 		session?.user.id
 			? {
 					authorId: session?.user.id,
@@ -58,6 +59,13 @@ export const Tasks = () => {
 					</div>
 				) : (
 					<p className='text-center'>Not tasks</p>
+				)}
+				{isLoading ? (
+					<div>
+						<Loader />
+					</div>
+				) : (
+					<div></div>
 				)}
 			</div>
 		</div>

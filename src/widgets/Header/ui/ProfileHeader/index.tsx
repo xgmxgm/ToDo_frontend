@@ -1,13 +1,15 @@
 'use client'
 
 import { signOut, useSession } from 'next-auth/react'
+import React, { useState } from 'react'
 import { Links } from './data'
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import { Loader } from '@/shared/ui/Loader'
 
 export const ProfileHeader = () => {
 	const { data: session, status } = useSession()
+	const [isLoading, setIsLoading] = useState<boolean>(false)
 
 	if (status == 'loading') {
 		return (
@@ -51,7 +53,10 @@ export const ProfileHeader = () => {
 						<Link
 							className='mx-2 transition-all hover:text-red-500'
 							href=''
-							onClick={() => signOut()}
+							onClick={() => {
+								setIsLoading(true)
+								signOut()
+							}}
 						>
 							Sign Out
 						</Link>
@@ -69,6 +74,13 @@ export const ProfileHeader = () => {
 						/>
 					</div>
 				</div>
+				{isLoading ? (
+					<div>
+						<Loader />
+					</div>
+				) : (
+					<div></div>
+				)}
 			</div>
 		)
 	}
